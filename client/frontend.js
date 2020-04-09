@@ -33,7 +33,6 @@ new Vue({
     },
   },
   async mounted() {
-    debugger;
     const data = await request("/api/contacts");
     console.log(data);
   },
@@ -42,11 +41,13 @@ new Vue({
 async function request(url, method = "GET", data = null) {
   try {
     const headers = {};
-    let body = {};
+    let body;
+
     if (data) {
       headers["Content-Type"] = "application/json";
       body = JSON.stringify(data);
     }
+
     const response = await fetch(url, {
       method,
       headers,
@@ -54,6 +55,6 @@ async function request(url, method = "GET", data = null) {
     });
     return await response.json();
   } catch (e) {
-    console.log("ERROR", e.message);
+    console.warn("Error:", e.message);
   }
 }
