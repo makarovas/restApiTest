@@ -39,7 +39,7 @@
             v-model="form.value"
           />
         </div>
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" type="submit" :disabled="!canCreate">
           Создать
         </button>
       </form>
@@ -54,7 +54,11 @@
               {{contact.name}}
             </h5>
             <p class="card-text">{{contact.value}}</p>
-            <button class="btn btn-primary" @click="markContact(contact.id)">
+            <button
+              class="btn btn-primary"
+              @click="markContact(contact.id)"
+              :disabled="contact.marked"
+            >
               Отметить
             </button>
             <button class="btn btn-danger" @click="removeContact(contact.id)">

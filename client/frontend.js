@@ -13,11 +13,16 @@ new Vue({
       ],
     };
   },
+  computed: {
+    canCreate() {
+      return this.form.value.trim() && this.form.name.trim();
+    },
+  },
   methods: {
     createContact() {
       const { ...contact } = this.form;
 
-      this.contacts.push({ ...contact, id: Date.now() });
+      this.contacts.push({ ...contact, id: Date.now(), marked: false });
 
       this.form.name = this.form.value = "";
     },
@@ -25,6 +30,8 @@ new Vue({
       const contact = this.contacts.find((c) => c.id === id);
       contact.marked = true;
     },
-    removeContact(id) {},
+    removeContact(id) {
+      this.contacts = this.contacts.filter((c) => c.id !== id);
+    },
   },
 });
