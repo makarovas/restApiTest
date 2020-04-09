@@ -2,11 +2,12 @@ import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js
 
 Vue.component("loader", {
   template: `
-  <div style='display: flex; justify-content: center; align-items: center'>
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+    <div style="display: flex;justify-content: center;align-items: center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
-  </div>`,
+  `,
 });
 
 new Vue({
@@ -36,9 +37,13 @@ new Vue({
 
       this.form.name = this.form.value = "";
     },
-    markContact(id) {
+    async markContact(id) {
       const contact = this.contacts.find((c) => c.id === id);
-      contact.marked = true;
+      const updated = await request(`/api/contacts/${id}`, "PUT", {
+        ...contact,
+        marked: true,
+      });
+      contact.marked = updated.marked;
     },
     async removeContact(id) {
       await request(`/api/contacts/${id}`, "DELETE");
